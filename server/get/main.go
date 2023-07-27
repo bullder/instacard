@@ -13,8 +13,16 @@ type Response struct {
 }
 
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (Response, error) {
+	name := request.QueryStringParameters["name"]
+	if name == "" {
+		return Response{
+			StatusCode: 400,
+			Body:       "Missing 'name' query parameter",
+		}, nil
+	}
+
 	responseData := map[string]interface{}{
-		"message": "Hello, this is a JSON response from AWS Lambda!",
+		"message": "Hello, this is a JSON response from AWS Lambda!" + name,
 	}
 
 	jsonData, err := json.Marshal(responseData)
