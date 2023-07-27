@@ -7,24 +7,22 @@ on:
 jobs:
  build:
   runs-on: ubuntu-latest
-  strategy: 
-    matrix:
-      go-version: [1.20]
   steps:
    - name: check the code
      uses: actions/Checkout@v2     
    - name: test
      run: echo "tested"
    - name: setup go
-     uses: actions/setup-go@v2
+     uses: actions/setup-go@v4
      with:
-       go-version: ${{ matrix.go-version }}
+      go-version: '^1.20'
      env:
       GO111MODULE: "on"
    - name: check setup
-     run: |     
+     run: |
+       go version
        go mod init instacard
-       go mod tidy      
+       go mod tidy
    - name: codebuld    
      run: |
       env GOOS=linux
