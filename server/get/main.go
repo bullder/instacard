@@ -13,7 +13,6 @@ type MyResponse struct {
 func HandleRequest(ctx context.Context) (MyResponse, error) {
 	//return fmt.Sprintf("Hello %s!", name.Name ), nil
 	return MyResponse{Message: fmt.Sprintf("%s is %d years old!", "Mike", 38)}, nil
-
 }
 
 func main() {
