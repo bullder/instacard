@@ -25,8 +25,9 @@ jobs:
      run: |
       env GOOS=linux
       go build 'server/get/main.go'
-      zip get.zip main
-      
+      mv main hello
+      zip get.zip hello
+
    - name: Configure AWS Credentials
      uses: aws-actions/configure-aws-credentials@v1
      with:
@@ -35,4 +36,4 @@ jobs:
           aws-region: ${{secrets.AWS_DEFAULT_REGION}}          
    - name: deploy
      run: |
-       aws lambda update-function-code --function-name get --region eu-west-1 --zip-file fileb://get.zip --handler main --runtime go1.x
+       aws lambda update-function-code --function-name get --region eu-west-1 --zip-file fileb://get.zip
