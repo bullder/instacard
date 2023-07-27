@@ -2,28 +2,32 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
 type Response struct {
-	StatusCode int               `json:"statusCode"`
-	Headers    map[string]string `json:"headers"`
-	Body       string            `json:"body"`
+	StatusCode int         `json:"statusCode"`
+	Body       interface{} `json:"body"`
 }
 
-func HandleRequest(ctx context.Context) (Response, error) {
-	msg := fmt.Sprintf("%s is %d years old!", "Mike", 38)
-	fmt.Println(msg)
+func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (Response, error) {
+	responseData := map[string]interface{}{
+		"message": "Hello, this is a JSON response from AWS Lambda!",
+	}
+
+	jsonData, err := json.Marshal(responseData)
+	if err != nil {
+		return Response{}, err
+	}
 
 	return Response{
-			StatusCode: 1,
-			Headers:    map[string]string{"Content-Type": "application/json"},
-			Body:       msg,
-		},
-		nil
+		StatusCode: 200,
+		Body:       string(jsonData),
+	}, nil
 }
 
 func main() {
-	lambda.Start(HandleRequest)
+	lambda.Start(Handler)
 }
