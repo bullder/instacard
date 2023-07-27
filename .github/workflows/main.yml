@@ -21,10 +21,10 @@ jobs:
    - name: check setup
      run: |
        go version
-   - name: codebuld
+   - name: build
      run: |
       env GOOS=linux
-      go build 'server/get/main.go' get
+      go build 'server/get/main.go'
       zip get.zip main
       
    - name: Configure AWS Credentials
