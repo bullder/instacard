@@ -35,9 +35,4 @@ jobs:
           aws-region: ${{secrets.AWS_DEFAULT_REGION}}          
    - name: deploy
      run: |
-       aws lambda update-function-code \
-        --function-name get \
-        --region eu-west-1
-        --handler main \
-        --runtime go1.x \
-        --zip-file fileb://get.zip
+       aws lambda update-function-code  --function-name get  --region eu-west-1 --handler main  --runtime go1.x  --zip-file fileb://get.zip
